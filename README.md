@@ -1,0 +1,4 @@
+### set up
+```
+bundle install
+```

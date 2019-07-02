@@ -8,16 +8,34 @@ describe "Gate" do
   let(:mikuni)  { Gate.new(:mikuni) }
 
   context "梅田 〜 十三間" do
-    let(:ticket) { Ticket.new(150) }
     before { umeda.enter(ticket) }
 
-    it { expect(juso.exit(ticket)).to be true }
+    context "運賃が足りる" do
+      let(:ticket) { Ticket.new(150) }
+      it { expect(juso.exit(ticket)).to be true }
+    end
   end
 
   context "梅田 〜 三国間" do
-    let(:ticket) { Ticket.new(150) }
     before { umeda.enter(ticket) }
 
-    it { expect(mikuni.exit(ticket)).to be false }
+    context "運賃が足りない" do
+      let(:ticket) { Ticket.new(150) }
+      it { expect(mikuni.exit(ticket)).to be false }
+    end
+
+    context "運賃が足りる" do
+      let(:ticket) { Ticket.new(190) }
+      it { expect(mikuni.exit(ticket)).to be true }
+    end
+  end
+
+  context "十三 〜 三国間" do
+    before { juso.enter(ticket) }
+    
+    context "運賃が足りる" do
+      let(:ticket) { Ticket.new(150) }
+      it { expect(mikuni.exit(ticket)).to be true }
+    end
   end
 end
